@@ -18,7 +18,7 @@ func TestCache(t *testing.T) {
 
 	err = cache.Ping()
 	require.NoError(t, err)
-	
+
 	key := fmt.Sprintf("key-%d", time.Now().UnixNano())
 
 	err = cache.Set(key, "value")
