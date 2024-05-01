@@ -14,8 +14,11 @@ func TestCache(t *testing.T) {
 	cache, err := internal.NewValKey()
 	require.NoError(t, err)
 
-	defer cache.Close()
-	// gets a string key based on the current time
+	t.Cleanup(cache.Close)
+
+	err = cache.Ping()
+	require.NoError(t, err)
+	
 	key := fmt.Sprintf("key-%d", time.Now().UnixNano())
 
 	err = cache.Set(key, "value")

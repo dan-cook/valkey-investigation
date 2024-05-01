@@ -13,6 +13,7 @@ var defaultConfig = valkey.ClientOption{
 type Cache interface {
 	Get(key string) (string, error)
 	Set(key string, value string) error
+	Ping() error
 	Close()
 }
 
@@ -40,6 +41,12 @@ func (v *Valkey) Set(key string, value string) error {
 
 func (v *Valkey) Close() {
 	v.client.Close()
+}
+
+func (v *Valkey) Ping() error {
+	ctx := context.Background()
+
+	return v.client.Do(ctx, v.client.B().Ping().Build()).Error()
 }
 
 func NewValKey() (Cache, error) {
